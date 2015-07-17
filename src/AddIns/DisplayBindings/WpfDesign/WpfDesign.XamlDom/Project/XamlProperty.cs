@@ -67,10 +67,30 @@ namespace ICSharpCode.WpfDesign.XamlDom
 			if (propertyInfo.IsCollection) {
 				isCollection = true;
 				collectionElements = new CollectionElementsCollection(this);
+				collectionElements.CollectionChanged += OnCollectionChanged;
 				
 				if (propertyInfo.Name.Equals(XamlConstants.ResourcesPropertyName, StringComparison.Ordinal) &&
 				    propertyInfo.ReturnType == typeof(ResourceDictionary)) {
 					isResources = true;
+				}
+			}
+		}
+		
+		void OnCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			// If implicit collection that is now empty we remove markup for the property if still there.
+			if (collectionElements.Count == 0 && propertyValue == null && _propertyElement != null)
+			{
+				_propertyElement.ParentNode.RemoveChild(_propertyElement);
+				_propertyElement = null;
+				
+				ParentObject.OnPropertyChanged(this);
+				
+				if (IsSetChanged != null) {
+					IsSetChanged(this, EventArgs.Empty);
+				}
+				if (ValueChanged != null) {
+					ValueChanged(this, EventArgs.Empty);
 				}
 			}
 		}
@@ -203,8 +223,10 @@ namespace ICSharpCode.WpfDesign.XamlDom
 			ResetInternal();
 
 			propertyValue = value;
-			propertyValue.ParentProperty = this;
-			propertyValue.AddNodeTo(this);
+			if (propertyValue != null) {
+				propertyValue.ParentProperty = this;
+				propertyValue.AddNodeTo(this);
+			}
 			UpdateValueOnInstance();
 
 			ParentObject.OnPropertyChanged(this);
@@ -241,13 +263,17 @@ namespace ICSharpCode.WpfDesign.XamlDom
 							((FrameworkElement)this.ParentObject.Instance).Height = (double)ValueOnInstance;
 					}
 				}
-				catch {
-					Debug.WriteLine("UpdateValueOnInstance() failed");
+				catch (Exception ex) {
+					Debug.WriteLine("UpdateValueOnInstance() failed - Exception:" + ex.Message);
 				}
 			}
 		}
 
 		private XamlMember _systemXamlMemberForProperty = null;
+		
+		/// <summary>
+		/// Gets a <see cref="XamlMember"/> representing the property. 
+		/// </summary>
 		public XamlMember SystemXamlMemberForProperty
 		{
 			get
@@ -259,6 +285,10 @@ namespace ICSharpCode.WpfDesign.XamlDom
 		}
 
 		private XamlType _systemXamlTypeForProperty = null;
+		
+		/// <summary>
+		/// Gets a <see cref="XamlType"/> representing the type the property is declared on. 
+		/// </summary>
 		public XamlType SystemXamlTypeForProperty
 		{
 			get

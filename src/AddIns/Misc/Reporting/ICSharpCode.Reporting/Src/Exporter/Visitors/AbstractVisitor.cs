@@ -66,6 +66,10 @@ namespace ICSharpCode.Reporting.Exporter.Visitors
 			
 		}
 		
+		public virtual void Visit (ExportImage exportImage) {
+			
+		}
+		
 		public virtual void Visit(ExportLine exportGraphics){
 		}
 		
@@ -81,6 +85,9 @@ namespace ICSharpCode.Reporting.Exporter.Visitors
 			return exportColumn.BackColor != Color.White;
 		}
 		
+		protected static bool HasFrame (ExportColumn exportColummn) {
+			return exportColummn.DrawBorder;
+		}
 		
 		protected Collection<ExportPage> Pages {get; private set;}
 		
@@ -92,6 +99,10 @@ namespace ICSharpCode.Reporting.Exporter.Visitors
 		
 		static protected bool IsGraphicsContainer (IExportColumn column) {
 			return column is GraphicsContainer;
+		}
+		
+		static protected IAcceptor AsAcceptor (IExportColumn element) {
+			return element as IAcceptor;
 		}
 	}
 }

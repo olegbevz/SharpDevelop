@@ -206,6 +206,10 @@ namespace ICSharpCode.WpfDesign.XamlDom
 		}
 
 		private XamlType _systemXamlTypeForProperty = null;
+		
+		/// <summary>
+		/// Gets a <see cref="XamlType"/> representing the <see cref="XamlObject.ElementType"/>.
+		/// </summary>
 		public XamlType SystemXamlTypeForProperty
 		{
 			get
@@ -266,6 +270,10 @@ namespace ICSharpCode.WpfDesign.XamlDom
 				}
 			}
 			UpdateMarkupExtensionChain();
+			
+			if (!element.HasChildNodes && !element.IsEmpty) {
+				element.IsEmpty = true;
+			}
 			
 			if (property == NameProperty) {
 				if (NameChanged != null)

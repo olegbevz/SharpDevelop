@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="ReachFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -84,8 +87,15 @@
       <Link>Configuration\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ArrangeDirection.cs" />
+    <Compile Include="Commands.cs" />
+    <Compile Include="Controls\NullableComboBox.cs" />
     <Compile Include="Controls\RenderTransformOriginThumb.cs" />
+    <Compile Include="Controls\Thumbs\PointThumb.cs" />
+    <Compile Include="Controls\Thumbs\ResizeThumb.cs" />
     <Compile Include="Extensions\BorderForImageControl.cs" />
+    <Compile Include="Extensions\DrawLineExtension.cs" />
+    <Compile Include="Extensions\DrawPathExtension.cs" />
+    <Compile Include="Extensions\DrawPolyLineExtension.cs" />
     <Compile Include="Extensions\DefaultCommandsContextMenu.xaml.cs">
       <DependentUpon>DefaultCommandsContextMenu.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,11 +103,17 @@
     <Compile Include="Extensions\DefaultCommandsContextMenuExtension.cs" />
     <Compile Include="Extensions\LineExtensionBase.cs" />
     <Compile Include="Extensions\LineHandlerExtension.cs" />
-    <Compile Include="Extensions\MultiPointResizeThumb.cs" />
+    <Compile Include="Controls\Thumbs\MultiPointThumb.cs" />
     <Compile Include="Extensions\PartialPanelSelectionHandler.cs" />
     <Compile Include="Extensions\EditStyleContextMenu.xaml.cs">
       <DependentUpon>EditStyleContextMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\PathContextMenu.xaml.cs">
+      <DependentUpon>PathContextMenu.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\PathContextMenuExtension.cs" />
+    <Compile Include="Extensions\PathHandlerExtension.cs" />
     <Compile Include="Extensions\PointTrackerPlacementSupport.cs" />
     <Compile Include="Extensions\PolyLineHandlerExtension.cs" />
     <Compile Include="Extensions\TextBlockRightClickContextMenu.xaml.cs">
@@ -119,6 +135,8 @@
       <DependentUpon>WrapItemContextMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\WrapItemsContextMenuExtension.cs" />
+    <Compile Include="MarkupExtensions\DesignItemBinding.cs" />
+    <Compile Include="OutlineView\OutlineNodeNameService.cs" />
     <Compile Include="OutlineView\OutlineNodeBase.cs" />
     <Compile Include="Extensions\WrapItemContextMenuExtension.cs" />
     <Compile Include="Extensions\WrapItemsContextMenu.xaml.cs">
@@ -175,10 +193,10 @@
     <Compile Include="Controls\PageClone.cs" />
     <Compile Include="Controls\PanelMoveAdorner.cs" />
     <Compile Include="Controls\QuickOperationMenu.cs" />
-    <Compile Include="Controls\RotateThumb.cs" />
+    <Compile Include="Controls\Thumbs\RotateThumb.cs" />
     <Compile Include="Controls\SelectionFrame.cs" />
     <Compile Include="Controls\ErrorBalloon.cs" />
-    <Compile Include="Controls\ResizeThumb.cs" />
+    <Compile Include="Controls\Thumbs\DesignerThumb.cs" />
     <Compile Include="CallExtension.cs" />
     <Compile Include="Controls\DragListener.cs" />
     <Compile Include="Controls\SizeDisplay.cs" />
@@ -294,7 +312,6 @@
     <Compile Include="Services\XamlErrorService.cs" />
     <Compile Include="SharedInstances.cs" />
     <Compile Include="ThumbnailView\ThumbnailView.cs" />
-    <Compile Include="UIExtensions\UIHelpers.cs" />
     <Compile Include="Xaml\XamlEditOperations.cs" />
     <Compile Include="Xaml\XamlLoadSettings.cs" />
     <Compile Include="Xaml\XamlModelCollectionElementsCollection.cs" />
@@ -306,10 +323,12 @@
     <Resource Include="Images\Tag.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\NullableComboBox.xaml" />
     <Page Include="Extensions\DefaultCommandsContextMenu.xaml" />
     <Page Include="Extensions\EditStyleContextMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Extensions\PathContextMenu.xaml" />
     <Page Include="Extensions\TextBlockRightClickContextMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -501,5 +520,8 @@
     <Resource Include="Images\Icons.16x16.PasteIcon.png" />
     <Resource Include="Images\Icons.16x16.RedoIcon.png" />
     <Resource Include="Images\Icons.16x16.UndoIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MarkupExtensions" />
   </ItemGroup>
 </Project>
